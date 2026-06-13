@@ -17,9 +17,8 @@ class PersistentSISController(SISRegistryController):
             )
         print(f"[SIS] Manifest loaded from {filepath}.")
 
+    from formula_library import FORMULA_REGISTRY
+
     def _lookup_logic(self, ref: str):
-        """Maps manifest reference strings to actual executable functions."""
-        logic_map = {
-            "FIN_001_LOGIC": lambda d: abs(d['v1'] - d['v2']) / ((d['v1'] + d['v2']) / 2) * 100
-        }
-        return logic_map.get(ref)
+    """Maps manifest reference strings to actual executable functions."""
+        return FORMULA_REGISTRY.get(ref)
