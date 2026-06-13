@@ -1,24 +1,20 @@
+import os
 import json
 
-class PersistentSISController(SISRegistryController):
-    def load_manifest(self, filepath: str):
-        """Loads and syncs the library from a persistent JSON file."""
-        with open(filepath, 'r') as f:
-            manifest = json.load(f)
-            
-        for uid, data in manifest.items():
-            # In a production SIS, formula_ref would map to an importable library function
-            # Here, we re-register using the dynamic definition
-            self.register_module(
-                uid=uid,
-                metadata=data["metadata"],
-                schema=data["schema"],
-                formula=self._lookup_logic(data["formula_ref"])
-            )
-        print(f"[SIS] Manifest loaded from {filepath}.")
-
-    from formula_library import FORMULA_REGISTRY
-
-    def _lookup_logic(self, ref: str):
-    """Maps manifest reference strings to actual executable functions."""
-        return FORMULA_REGISTRY.get(ref)
+class DistributedSISController(SISRegistryController):
+    def load_registry_directory(self, directory_path: str):
+        """Crawls a directory, loads all JSON modules, and registers them."""
+        for filename in os.listdir(directory_path):
+            if filename.endswith(".json"):
+                with open(os.path.join(directory_path, filename), 'r') as f:
+                    module_data = json.load(f)
+                    
+                    # Registering the module dynamically
+                    self.register_module(
+                        uid=module_data["uid"],
+                        metadata=module_data["metadata"],
+                        schema=module_data["schema"],
+                        formula=self._lookup_logic(module_data["formula_ref"])
+                    )
+        print(f"[SIS] Distributed registry loaded from {directory_path}.")
+        
