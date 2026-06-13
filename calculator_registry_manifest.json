@@ -1,0 +1,23 @@
+{
+  "registry": {
+    "FIN_001_PERCENT_DIFF": {
+      "metadata": { "label": "Percent Difference", "category": "Math" },
+      "schema": ["v1", "v2"],
+      "formula": "abs(v1 - v2) / ((v1 + v2) / 2) * 100",
+      "validation": { "v1_v2_nonzero": true }
+    },
+    "PHYS_001_KINETIC_ENERGY": {
+      "metadata": { "label": "Kinetic Energy", "category": "Physics" },
+      "schema": ["mass", "velocity"],
+      "formula": "0.5 * mass * pow(velocity, 2)",
+      "validation": { "mass_positive": true }
+    },
+    "FIN_002_COMPOUND_INTEREST": {
+      "metadata": { "label": "Compound Interest", "category": "Finance" },
+      "schema": ["principal", "rate", "time", "compounds"],
+      "formula": "principal * pow((1 + rate/compounds), (compounds * time))",
+      "validation": { "rate_range": [0, 1] }
+    }
+  }
+}
+
