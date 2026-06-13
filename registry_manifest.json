@@ -1,0 +1,7 @@
+{
+  "FIN_001_PERCENT_DIFF": {
+    "metadata": { "label": "Percent Difference", "category": "Math" },
+    "schema": ["v1", "v2"],
+    "formula_ref": "FIN_001_LOGIC"
+  }
+}
